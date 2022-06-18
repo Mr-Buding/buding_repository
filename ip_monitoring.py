@@ -7,7 +7,7 @@ import os
 
 # 爬取最新的ip地址信息
 def get_latest_ip():
-    url = 'https://www.gstatic.com/ipranges/goog.json'
+    url = 'https://www.***json.com/s.json'  #获取json数据的爬虫地址
     resp = requests.get(url)
     json_data = json.loads(resp.text)
     prefixes = json_data['prefixes']
@@ -32,10 +32,10 @@ def compare_ip_list():
         fp2.close()
         for item in file_list1:
             if item not in file_list2:
-                message = (message + 'Mirana WorkSpace ip 新增：' + item)
+                message = (message + 'ip 新增：' + item)
         for item in file_list2:
             if item not in file_list1:
-                message = (message + 'Mirana WorkSpace ip 减少：' + item)
+                message = (message + '减少：' + item)
     else:
         with open('file_02', 'w'):
             message = '首次数据已获取'
@@ -46,7 +46,7 @@ def compare_ip_list():
 def webhook_request(message_content):
     webhook_url = 'https://open.feishu.cn/open-apis/bot/v2/hook/*****'
     headers = {'Content-Type': 'application/json'}
-    webhook_message = '【Mirana WorkSpace ip地址变更告警】 \n【详细信息】：\n %s' % message_content
+    webhook_message = '【ip地址变更告警】 \n【详细信息】：\n %s' % message_content
     payload = {'msg_type': 'text', 'content': {'text': webhook_message}}
     requests.post(webhook_url, headers=headers, json=payload)
 
